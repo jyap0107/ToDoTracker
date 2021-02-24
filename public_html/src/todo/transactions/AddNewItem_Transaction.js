@@ -8,6 +8,7 @@ export default class AddNewItem_Transaction extends jsTPS_Transaction {
     constructor(initModel) {
         super();
         this.model = initModel;
+        
     }
 
     doTransaction() {

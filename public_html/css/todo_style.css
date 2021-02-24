@@ -52,6 +52,30 @@
 #todo-list-table-header {
     border-bottom: dotted;
 }
+#confirm-delete:hover {
+    transform:scale(1.1, 1.1);
+    cursor:pointer;
+    background-color: rgba(255,255,255,.5)
+}
+.task-col {
+    background-color: #40454e;
+    color: white;
+}
+.due-date-col {
+    background-color: #40454e;
+    color: white;
+}
+.status-dropdown {
+    display: flex;
+    position: relative;
+    background: rgb(64, 69, 78);
+    color:white;
+    font-family: var(--font-primary);
+}
+.status-dropdown .select-options {
+    background: white;
+    color: white;
+}
 
 .list-header-card {
     border-bottom: dotted;
@@ -68,4 +92,19 @@
 
 .todo_button:hover {
     background-color: var(--swatch-contrast);
+    transition: all 0.4s;
+}
+.todo_button_edit_current {
+    cursor:pointer;
+    background-color: var(--swatch-complement);
+}
+
+.todo_button_edit_current:hover {
+    background-color: var(--swatch-contrast);
+    transition: all 0.4s;
+}
+.delete-confirmation-close-button:hover {
+    transform:scale(1.3,1.3);
+    cursor:pointer;
+    transition: all 0.4s;
 }

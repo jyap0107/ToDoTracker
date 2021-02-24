@@ -25,6 +25,11 @@ export default class ToDoView {
         let thisController = this.controller;
         listElement.onmousedown = function() {
             thisController.handleLoadList(newList.id);
+            thisController.a = true;
+            let elements = document.getElementsByClassName("list-item-control");
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].classList.add("todo_button_edit_current");
+            }
         }
     }
 
@@ -51,27 +56,77 @@ export default class ToDoView {
     }
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
+    swapToDiv(e, isTask) {
+        let newTag = document.createElement("div");
+        newTag.innerHTML = e.value;
+        if (isTask) {
+            newTag.classList.add("task-col");
+            e.parentNode.replaceChild(newTag, e);
+        }
+        else {
+            newTag.classList.add("due-date-col");
+            e.parentNode.replaceChild(newTag, e);
+        }
+    }
+    swapToInput(e, isTask) {
+        let newTag = document.createElement("input");
+        newTag.defaultValue = e.innerHTML;
+        if (isTask) {
+            newTag.classList.add("task-col");
+        }
+        else {
+            newTag.classList.add("due-date-col");
+        }
+        e.parentNode.replaceChild(newTag, e);
+    }
+    swapToDropdown(e, status) {
+        let select1 = document.createElement("select");
+        select1.classList.add("status-dropdown");
+        let option1 = document.createElement("option");
+        let option2 = document.createElement("option");
+        option1.value = "incomplete";
+        option1.innerHTML = "incomplete";
+        option2.value = "complete";
+        option2.innerHTML = "complete";
+        option2.selectedIndex = "0";
+        select1.appendChild(option1);
+        select1.appendChild(option2);
+        console.log(status);
+        select1.value = status
+        e.parentNode.replaceChild(select1, e);
+    }
+    swapDropdownToDiv(e) {
+        console.log(e.value);
+        let newTag = document.createElement("div");
+        newTag.classList.add("status-dropdown");
+        newTag.innerHTML = e.value;
+        e.parentNode.replaceChild(newTag, e);
+    }
     viewList(list) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
         // GET RID OF ALL THE ITEMS
         this.clearItemsList();
-
+        /*
+        1. On click, call method
+         */
         for (let i = 0; i < list.items.length; i++) {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
                                 + "<div class='task-col'>" + listItem.description + "</div>"
-                                + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
-                                + "<div class='status-col'>" + listItem.status + "</div>"
-                                + "<div class='list-controls-col'>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
-                                + " <div class='list-item-control material-icons'>close</div>"
-                                + " <div class='list-item-control'></div>"
-                                + " <div class='list-item-control'></div>"
+                                + "<div class='due-date-col' type=text>" + listItem.dueDate + "</div>"
+                                + "<div class='status-col'>"
+                                + "<div class='status-dropdown'>" + listItem.getStatus() + "</div></div>"
+                                + "<div class='list-controls-col'>" 
+                                // + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
+                                // + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
+                                // + " <div class='list-item-control material-icons'>close</div>"
+                                // + " <div class='list-item-control'></div>"
+                                // + " <div class='list-item-control'></div>"
                                 + "</div>";
+                                //"<div class='status-dropdown'>Incomplete<div class=select-options</div>"
             itemsListDiv.innerHTML += listItemElement;
         }
     }

@@ -46,7 +46,7 @@ export default class ToDoModel {
      */
     addNewItemToCurrentList() {
         let newItem = new ToDoListItem(this.nextListItemId++);
-        this.addItemToList(this.currentList, newItem);
+        this.addNewItemToList(this.currentList, newItem);
         return newItem;
     }
 
@@ -73,6 +73,10 @@ export default class ToDoModel {
      */
     addNewItemTransaction() {
         let transaction = new AddNewItem_Transaction(this);
+        this.tps.addTransaction(transaction);   
+    }
+    changeTaskTextTransaction(index) {
+        let transaction = new ChangeTaskText_Transaction(this, index, true);
         this.tps.addTransaction(transaction);
     }
 
@@ -118,6 +122,7 @@ export default class ToDoModel {
     /**
      * Load the items for the listId list into the UI.
      */
+
     loadList(listId) {
         let listIndex = -1;
         for (let i = 0; (i < this.toDoLists.length) && (listIndex < 0); i++) {
@@ -128,9 +133,32 @@ export default class ToDoModel {
             let listToLoad = this.toDoLists[listIndex];
             this.currentList = listToLoad;
             this.view.viewList(this.currentList);
+            this.shiftLists(listIndex);
+            this.view.refreshLists(this.toDoLists);
         }
     }
 
+    shiftLists(listIndex) {
+        for (let i = listIndex; i > 0; i--) {
+            this.toDoLists[i] = this.toDoLists[i-1];
+        }
+        this.toDoLists[0] = this.currentList;
+    }
+
+    // swapToDiv(e, index, isTask) {
+    //     let newTag = document.createElement("div");
+    //     newTag.innerHTML = e.value;
+    //     if (isTask) {
+    //         newTag.classList.add("task-col");
+    //         e.parentNode.replaceChild(newTag, e);
+    //         this.currentList.items[index].setDescription(e.value);
+    //     }
+    //     else {
+    //         newTag.classList.add("due-date-col");
+    //         e.parentNode.replaceChild(newTag, e);
+    //         this.currentList.items[index].setDueDate(e.value);
+    //     }
+    // }
     /**
      * Redo the current transaction if there is one.
      */
@@ -160,8 +188,22 @@ export default class ToDoModel {
         }
         this.toDoLists.splice(indexOfList, 1);
         this.currentList = null;
+        let elements = document.getElementsByClassName("list-item-control");
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].classList.remove("todo_button_edit_current");
+        }
         this.view.clearItemsList();
         this.view.refreshLists(this.toDoLists);
+    }
+    removeListConfirmation() {
+        if (this.currentList != null) {
+            let modal = document.getElementById('delete-list-confirmation');
+            modal.style.display = 'block';
+        }
+    }
+    removeListModalHide() {
+        let modal = document.getElementById('delete-list-confirmation');
+        modal.style.display = 'none';
     }
 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
@@ -176,5 +218,9 @@ export default class ToDoModel {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
         }
-    } 
+    }
+    revertTaskText(index, oldHTML) {
+        this.currentList.items[index].setDescription(oldHTML);
+        this.view.viewList(this.currentList);
+    }
 }

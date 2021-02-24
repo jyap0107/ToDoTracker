@@ -37,9 +37,16 @@
                 <div class="list-controls-col">
                     <div class="list-item-control"></div>
                     <div class="list-item-control"></div>
-                    <div id="add-item-button" class="list-item-control material-icons todo_button">add_box</span></div>
-                    <div id="delete-list-button" class="list-item-control material-icons todo_button">delete</span></div>
-                    <div id="close-list-button" class="list-item-control material-icons todo_button">close</span></div>
+                    <div id="add-item-button" class="list-item-control material-icons">add_box</span></div>
+                    <div id="delete-list-button" class="list-item-control material-icons">delete</span></div>
+                    <div id="delete-list-confirmation" class="modal">
+                        <div class="delete-confirmation-content">
+                            <span id = "x-button" class="delete-confirmation-close-button">&times;</span>
+                            <p>Delete list?</p>
+                            <p id="confirm-delete" class=confirm-delete>Confirm</p>
+                        </div>
+                    </div>
+                    <div id="close-list-button" class="list-item-control material-icons">close</span></div>
                 </div>
             </div>
             <div id="todo-list-items-div"></div>

@@ -9,7 +9,7 @@
  * 
  * @author THE McKilla Gorilla (accept no imposters)
  * @version 1.0
- */
+ */ 
 export class jsTPS_Transaction {
     /**
      * This method is called by jTPS when a transaction is executed.
@@ -175,6 +175,7 @@ export default class jsTPS {
      * TPS stack and undoes it, moving the TPS counter accordingly.
      */
     undoTransaction() {
+        console.log("po");
         if (this.hasTransactionToUndo()) {
             this.performingUndo = true;
             let transaction = this.transactions[this.mostRecentTransaction];

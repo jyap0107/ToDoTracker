@@ -7,33 +7,123 @@
  * event handling responses.
  */
 export default class ToDoController {    
-    constructor() {}
+    constructor() {
+    }
 
     setModel(initModel) {
         this.model = initModel;
         let appModel = this.model;
+        let index = 0;
 
         // SETUP ALL THE EVENT HANDLERS SINCE THEY USE THE MODEL
-        document.getElementById("add-list-button").onmousedown = function() {
+        document.getElementById("add-list-button").onclick = function() {
             appModel.addNewList();
         }
-        document.getElementById("undo-button").onmousedown = function() {
+        document.getElementById("undo-button").onclick = function() {
             appModel.undo();
         }
-        document.getElementById("redo-button").onmousedown = function() {
+        document.getElementById("redo-button").onclick = function() {
             appModel.redo();
         }
-        document.getElementById("delete-list-button").onmousedown = function() {
-            appModel.removeCurrentList();
+        document.getElementById("delete-list-button").onclick = function() {
+            appModel.removeListConfirmation();
         }
-        document.getElementById("add-item-button").onmousedown = function() {
+        document.getElementById("confirm-delete").onclick = function() {
+            appModel.removeCurrentList();
+            appModel.removeListModalHide();
+            
+        }
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+            if (key == "Escape") {
+                appModel.removeListModalHide();
+            }
+        })
+        document.getElementById("x-button").onclick = function() {
+            appModel.removeListModalHide();
+        }
+        document.getElementById("add-item-button").onclick = function() {
             appModel.addNewItemTransaction();
-        }  
+        }
+        // Event Listener for changing the description
+        document.addEventListener("mousedown", function(e) {
+            let input = document.querySelector("input");
+            // If clicked on input when it is already open
+            if (e.target && e.target.matches("input")) {
+                return;
+            }
+            // If did not click on input and there is an input
+            if (e.target && !e.target.matches("input")) {
+                if (input != null){
+                    let parent = input.parentNode;
+                    let index = Array.from(input.parentNode.parentNode.children).indexOf(input.parentNode);
+                    if (input.classList.contains("task-col")) {
+                        //Should be handled via view.
+                        appModel.changeTaskTextTransaction(index);
+                        // appModel.view.swapToDiv(input, index, true);
+                        // appModel.currentList.items[index].setDescription(input.value);
+                    }
+                    else {
+                        appModel.view.swapToDiv(input, index, false);
+                        appModel.currentList.items[index].setDueDate(input.value);
+                    }
+                }
+            }
+            if (e.target && e.target.matches(".task-col") && !e.target.matches("#task-col-header")) {
+                appModel.view.swapToInput(e.target, true);
+                return;
+            }
+            if (e.target && e.target.matches(".due-date-col") && !e.target.matches("#date-col-header")) {
+                appModel.view.swapToInput(e.target, false);
+                return;
+            }
+            // document.getElementById("todo-list-items-div").addEventListener("click",function(e) {
+            //     if (e.target && e.target.matches(".task-col")) {
+            //         appModel.swapItemTag(e.target);
+            //     }
+            // })
+            // If clicked onto the status element
+
+        })
+        // Event listener for transforming HTML to select and back
+        document.addEventListener("mousedown", function(e) {
+            let input = document.querySelector("select");
+            if (e.target && !e.target.matches("select")) {
+                if (input != null) {
+                    appModel.view.swapDropdownToDiv(input);
+                }
+            }
+            if (e.target && e.target.matches(".status-dropdown") && !e.target.matches("select")) {
+                let element = e.target;
+                let parent = element.parentNode.parentNode;
+                let index = Array.from(parent.parentNode.children).indexOf(parent);
+                console.log(index);
+                appModel.view.swapToDropdown(e.target, appModel.currentList.items[index].status);
+            }
+        })
+        // Event Listener for detecting change of the dropdown
+        document.getElementById("todo-list-items-div").addEventListener("change", function(event) {
+            let element = event.target;
+            if (event.target.matches(".status-dropdown")) {
+                //can be handled by model
+                let parent = element.parentNode.parentNode;
+                let index = Array.from(parent.parentNode.children).indexOf(parent);
+                appModel.currentList.items[index].setStatus(element.value);
+            }
+        })
+
+        
+        // If you click outside of an input, set all inputs back to div.
+
+
+        
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD
     handleLoadList(listId) {
-        // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
+        // // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
+        // this.model.currentList = this.model.toDoLists[0];
         this.model.loadList(listId);
+        
     }
 }
