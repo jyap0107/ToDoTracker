@@ -5,24 +5,22 @@ import { jsTPS_Transaction } from "../../common/jsTPS.js"
 
 // THIS TRANSACTION IS FOR ADDING A NEW ITEM TO A TODO LIST
 export default class ChangeDueDate_Transaction extends jsTPS_Transaction {
-    constructor(initModel, index, task, input) {
+    constructor(initModel, index, value) {
         super();
         this.model = initModel;
         this.index = index;
-        this.task = task;
-        this.input = input;
+        this.value = value;
         this.oldHMTL = "";
     }
 
     doTransaction() {
         // MAKE A NEW ITEM
         // Make a model variable for current index and element?
-        this.oldHTML = this.model.currentList.items[this.index].getDueDate();
-        this.model.view.swapToDiv(this.input, true);
-        this.model.currentList.items[this.index].setDueDate(this.input.value);
+        this.oldHTML = this.model.currentList.items[this.index].getStatus();
+        this.model.currentList.items[this.index].setStatus(this.value);
     }
         // Undo transaction is change innerHTML back to old
     undoTransaction() {
-        this.model.revertDueDate(this.index, this.oldHTML)
+        this.model.revertStatus(this.index, this.oldHTML)
     }
 }

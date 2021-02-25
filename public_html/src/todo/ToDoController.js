@@ -106,7 +106,7 @@ export default class ToDoController {
                 //can be handled by model
                 let parent = element.parentNode.parentNode;
                 let index = Array.from(parent.parentNode.children).indexOf(parent);
-                appModel.currentList.items[index].setStatus(element.value);
+                appModel.changeStatusTransaction(index, element.value)
             }
         })
         document.addEventListener("mousedown", function(event) {

@@ -5,6 +5,8 @@ import ToDoListItem from './ToDoListItem.js'
 import jsTPS from '../common/jsTPS.js'
 import AddNewItem_Transaction from './transactions/AddNewItem_Transaction.js'
 import ChangeTaskText_Transaction from './transactions/ChangeTaskText_Transaction.js'
+import ChangeDueDate_Transaction from './transactions/ChangeDueDate_Transaction.js'
+import ChangeStatus_Transaction from './transactions/ChangeStatus_Transaction.js'
 
 /**
  * ToDoModel
@@ -84,7 +86,11 @@ export default class ToDoModel {
         this.tps.addTransaction(transaction);
     }
     changeDueDateTransaction(index, input) {
-        let transaction = new ChangeTaskText_Transaction(this, index, true, input);
+        let transaction = new ChangeDueDate_Transaction(this, index, true, input);
+        this.tps.addTransaction(transaction);
+    }
+    changeStatusTransaction(index, value) {
+        let transaction =new ChangeStatus_Transaction(this, index, value);
         this.tps.addTransaction(transaction);
     }
 
@@ -232,7 +238,11 @@ export default class ToDoModel {
         this.view.viewList(this.currentList);
     }
     revertDueDate(index, oldHTML) {
-        this.currentList.items[index].setDescription(oldHTML);
+        this.currentList.items[index].setDueDate(oldHTML);
+        this.view.viewList(this.currentList);   
+    }
+    revertStatus(index, oldHTML) {
+        this.currentList.items[index].setStatus(oldHTML);
         this.view.viewList(this.currentList);   
     }
 }
