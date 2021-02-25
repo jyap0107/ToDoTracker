@@ -93,6 +93,10 @@ export default class ToDoModel {
         let transaction =new ChangeStatus_Transaction(this, index, value);
         this.tps.addTransaction(transaction);
     }
+    moveItemDownTransaction(index) {
+        let transaction = new MoveItemDown_Transaction(this, index);
+        this.tps.addTransaction(transaction);
+    }
 
     /**
      * addNewList
@@ -157,6 +161,22 @@ export default class ToDoModel {
             this.toDoLists[i] = this.toDoLists[i-1];
         }
         this.toDoLists[0] = this.currentList;
+    }
+    moveItemUp(index) {
+        if (index != 0) {
+            let temp = this.currentList.items[index-1];
+            this.currentList.items[index-1] = this.currentList.items[index];
+            this.currentList.items[index] = temp;
+            this.view.viewList(this.currentList);
+        }
+    }
+    moveItemDown(index) {
+        if (index != this.currentList.items.length-1) {
+            let temp = this.currentList.items[index+1];
+            this.currentList.items[index+1] = this.currentList.items[index];
+            this.currentList.items[index] = temp;
+            this.view.viewList(this.currentList);
+        }
     }
 
     // swapToDiv(e, index, isTask) {

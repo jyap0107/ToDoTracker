@@ -118,9 +118,9 @@ export default class ToDoView {
                                 + "<div class='status-col'>"
                                 + "<div class='status-dropdown'>" + listItem.getStatus() + "</div></div>"
                                 + "<div class='list-controls-col'>" 
-                                + " <div class='list-item-control material-icons arrow-up'>keyboard_arrow_up</div>"
-                                + " <div class='list-item-control material-icons arrow-down'>keyboard_arrow_down</div>"
-                                + " <div class='list-item-control material-icons close'>close</div>"
+                                + " <div class='list-item-control material-icons arrow-up todo_button'>keyboard_arrow_up</div>"
+                                + " <div class='list-item-control material-icons arrow-down todo_button'>keyboard_arrow_down</div>"
+                                + " <div class='list-item-control material-icons close todo_button'>close</div>"
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";

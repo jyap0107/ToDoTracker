@@ -112,12 +112,21 @@ export default class ToDoController {
         document.addEventListener("mousedown", function(event) {
             let element = event.target;
             let index = 0;
-            if (element.matches(".arrow-up")) {
+            if (element.matches(".arrow-up") || element.matches(".arrow-down") || element.matches(".close")) {
                 let items = document.getElementById("todo-list-items-div").children;
                 for (let i = 0; i < items.length; i++) {
                     if (items[i].contains(element)) {
                         index = i;
                     }
+                }
+                if (element.matches(".arrow-up")) {
+                    appModel.moveItemDownTransaction(index);
+                }
+                if (element.matches(".arrow-down")) {
+                    appModel.moveItemDown(index);
+                }
+                if (element.matches(".close")) {
+                    appModel.removeItem(appModel.currentList.items[index]);
                 }
             }
             // if (e.target && e.target.matches("arrow-up")) {
