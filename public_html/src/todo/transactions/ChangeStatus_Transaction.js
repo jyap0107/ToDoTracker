@@ -18,6 +18,7 @@ export default class ChangeDueDate_Transaction extends jsTPS_Transaction {
         // Make a model variable for current index and element?
         this.oldHTML = this.model.currentList.items[this.index].getStatus();
         this.model.currentList.items[this.index].setStatus(this.value);
+        this.model.view.viewList(this.model.currentList);
     }
         // Undo transaction is change innerHTML back to old
     undoTransaction() {

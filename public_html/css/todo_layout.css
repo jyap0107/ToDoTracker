@@ -35,6 +35,18 @@
     border: 3px transparent;
     background-clip: content-box;
 }
+#todo-list-items-div::-webkit-scrollbar {
+    width: 7px;
+}
+#todo-list-items-div::-webkit-scrollbar-track {
+    background-color:rgb(50,50,50)
+}
+#todo-list-items-div::-webkit-scrollbar-thumb {
+    background-color: rgb(224, 224, 224);
+    border-radius: 10px;
+    border: 3px transparent;
+    background-clip: content-box;
+}
 #left-sidebar-header {
     display: grid;
     grid-template-columns: 60% 40%;
@@ -58,9 +70,12 @@
 
 #todo-list-items-div{
     display: flex;
-    height: 80%;
     flex-direction: column;
+    height: 90%;
+    overflow: auto;
 }
+
+
 #delete-list-confirmation{
     display: none;
     position: fixed;

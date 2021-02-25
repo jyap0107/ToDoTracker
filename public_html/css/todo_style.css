@@ -13,12 +13,13 @@
     --swatch-text:          #e9edf0; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */ 
     --swatch-text-accent:   #ffc819; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */  
 
-    --font-primary:         'Lexend Exa', sans-serif;
+    --font-primary:         'Consolas', sans-serif;
 }
 
 #grid-container {
     background-color: var(--swatch-foundation);
     font-family: var(--font-primary);
+    overflow: auto;
 }
 
 .grid-item {
@@ -26,7 +27,9 @@
 }
 
 #navbar {
-    box-shadow: 2px 2px 2px var(--swatch-primary); 
+    box-shadow: 2px 2px 2px var(--swatch-primary);
+    border-bottom: dotted;
+    height: 83%;
 }
 
 #left-sidebar {
@@ -47,6 +50,7 @@
 
 #left-sidebar-header {
     border-bottom: dotted;
+    background-color: var(--swatch-complement);
 }
 
 #todo-list-table-header {
@@ -57,8 +61,10 @@
     cursor:pointer;
     background-color: rgba(255,255,255,.5);
 }
+#todo-lists-list {
+    background-color: var(--swatch-complement);
+}
 .task-col {
-    background-color: #40454e;
     color: white;
 }
 input.task-col {
@@ -68,22 +74,19 @@ input.due-date-col {
     background-color: rgb(87, 93, 105);
 }
 .due-date-col {
-    background-color: #40454e;
     color: white;
 }
 select.status-dropdown {
     background-color: rgb(87, 93, 105);
+    color:white;
 }
 .status-dropdown {
     display: flex;
-    position: relative;
-    background: rgb(64, 69, 78);
-    color:white;
     font-family: var(--font-primary);
 }
 .status-dropdown .select-options {
-    background: white;
-    color: white;
+    background:var(--swatch-complement);
+    color: var(--swatch-complement);
 }
 
 .list-header-card {
@@ -96,16 +99,22 @@ select.status-dropdown {
 
 .todo_button {
     cursor:pointer;
+    /* background-color: var(--swatch-complement); */
+}
+.list-item-control {
+    text-align: center;
+}
+#todo-list-header-card {
     background-color: var(--swatch-complement);
 }
-
 .todo_button:hover {
+    cursor:pointer;
     background-color: var(--swatch-contrast);
     transition: all 0.4s;
 }
 .todo_button_edit_current {
     cursor:pointer;
-    background-color: var(--swatch-complement);
+    /* background-color: var(--swatch-complement); */
 }
 
 .todo_button_edit_current:hover {
@@ -117,3 +126,19 @@ select.status-dropdown {
     cursor:pointer;
     transition: all 0.4s;
 }
+.incomplete-status {
+    color: rgb(245, 188, 117)
+}
+.complete-status {
+    color: rgb(142, 212, 248)
+}
+.highlight {
+    background-color: rgb(69, 75, 83);
+}
+.list-item-card:hover {
+    background-color: rgb(77, 80, 89);
+}
+/* .list-item-control {
+    background-color: rgb(53, 58, 68);
+} */
+

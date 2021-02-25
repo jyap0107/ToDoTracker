@@ -18,11 +18,14 @@ export default class ChangeTaskText_Transaction extends jsTPS_Transaction {
         // MAKE A NEW ITEM
         // Make a model variable for current index and element?
         this.oldHTML = this.model.currentList.items[this.index].getDescription();
-        this.model.view.swapToDiv(this.input, true);
+        if (this.input.parentNode != null) {
+            this.model.view.swapToDiv(this.input, true);
+        }
         this.model.currentList.items[this.index].setDescription(this.input.value);
+        this.model.view.viewList(this.model.currentList);
     }
         // Undo transaction is change innerHTML back to old
     undoTransaction() {
-        this.model.revertTaskText(this.index, this.oldHTML)
+        this.model.revertTaskText(this.index, this.oldHTML);
     }
 }

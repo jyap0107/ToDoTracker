@@ -7,6 +7,9 @@ import AddNewItem_Transaction from './transactions/AddNewItem_Transaction.js'
 import ChangeTaskText_Transaction from './transactions/ChangeTaskText_Transaction.js'
 import ChangeDueDate_Transaction from './transactions/ChangeDueDate_Transaction.js'
 import ChangeStatus_Transaction from './transactions/ChangeStatus_Transaction.js'
+import MoveItemDown_Transaction from './transactions/MoveItemDown_Transaction.js'
+import MoveItemUp_Transaction from './transactions/MoveItemUp_Transaction.js'
+import RemoveItem_Transaction from './transactions/RemoveItem_Transaction.js'
 
 /**
  * ToDoModel
@@ -41,6 +44,11 @@ export default class ToDoModel {
     addItemToCurrentList(itemToAdd) {
         this.currentList.push(itemToAdd);
     }
+    addItemToCurrentListByIndex(index, itemToAdd) {
+        this.currentList.items.splice(index, 0, itemToAdd);
+        this.view.viewList(this.currentList);
+
+    }
 
     /**
      * addNewItemToCurrentList
@@ -68,33 +76,50 @@ export default class ToDoModel {
             this.view.refreshList(list);
         }
     }
-    moveItemUp() {
-        return;
-    }
 
     /**
      * addNewItemTransaction
      * 
      * Creates a new transaction for adding an item and adds it to the transaction stack.
      */
+    enableUndoButton() {
+        let a = document.getElementById("undo-button");
+        a.classList.add("todo_button");
+        a.classList.remove("disabled");
+    }
     addNewItemTransaction() {
         let transaction = new AddNewItem_Transaction(this);
+        this.enableUndoButton();
         this.tps.addTransaction(transaction);   
     }
     changeTaskTextTransaction(index, input) {
         let transaction = new ChangeTaskText_Transaction(this, index, true, input);
+        this.enableUndoButton();
         this.tps.addTransaction(transaction);
     }
     changeDueDateTransaction(index, input) {
         let transaction = new ChangeDueDate_Transaction(this, index, true, input);
+        this.enableUndoButton();
         this.tps.addTransaction(transaction);
     }
     changeStatusTransaction(index, value) {
         let transaction =new ChangeStatus_Transaction(this, index, value);
+        this.enableUndoButton();
         this.tps.addTransaction(transaction);
     }
     moveItemDownTransaction(index) {
         let transaction = new MoveItemDown_Transaction(this, index);
+        this.enableUndoButton();
+        this.tps.addTransaction(transaction);
+    }
+    moveItemUpTransaction(index) {
+        let transaction = new MoveItemUp_Transaction(this, index);
+        this.enableUndoButton();
+        this.tps.addTransaction(transaction);
+    }
+    removeItemTransaction(index, element) {
+        let transaction = new RemoveItem_Transaction(this, index, element);
+        this.enableUndoButton();
         this.tps.addTransaction(transaction);
     }
 
@@ -199,14 +224,23 @@ export default class ToDoModel {
     redo() {
         if (this.tps.hasTransactionToRedo()) {
             this.tps.doTransaction();
+            let a = document.getElementById("undo-button");
+            a.classList.add("todo_button");
+            a.classList.remove("disabled");
+            
+        }
+        if (!this.tps.hasTransactionToRedo()) {
+            let a = document.getElementById("redo-button");
+            a.classList.add("disabled");
+            a.classList.remove("todo_button");
         }
     }   
 
     /**
-     * Remove the itemToRemove from the current list and refresh.
+     * Remove the item at selected index from the current list and refresh.
      */
-    removeItem(itemToRemove) {
-        this.currentList.removeItem(itemToRemove);
+    removeItem(index) {
+        this.currentList.removeItem(this.currentList.items[index]);
         this.view.viewList(this.currentList);
     }
 
@@ -251,6 +285,14 @@ export default class ToDoModel {
     undo() {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
+            let a = document.getElementById("redo-button");
+            a.classList.add("todo_button");
+            a.classList.remove("disabled");
+        }
+        if (!this.tps.hasTransactionToUndo()) {
+            let a = document.getElementById("undo-button");
+            a.classList.add("disabled");
+            a.classList.remove("todo_button");
         }
     }
     revertTaskText(index, oldHTML) {

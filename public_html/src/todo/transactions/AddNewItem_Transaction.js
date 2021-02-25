@@ -12,12 +12,10 @@ export default class AddNewItem_Transaction extends jsTPS_Transaction {
 
     doTransaction() {
         // MAKE A NEW ITEM
-        console.log("p");
         this.itemAdded = this.model.addNewItem();
-        console.log("d");
     }
 
     undoTransaction() {
-        this.model.removeItem(this.itemAdded.id);
+        this.model.removeItem(this.model.currentList.items.length - 1);
     }
 }

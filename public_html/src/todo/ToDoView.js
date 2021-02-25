@@ -26,10 +26,10 @@ export default class ToDoView {
         listElement.onmousedown = function() {
             thisController.handleLoadList(newList.id);
             thisController.a = true;
-            let elements = document.getElementsByClassName("list-item-control");
-            for (let i = 0; i < elements.length; i++) {
-                elements[i].classList.add("todo_button_edit_current");
-            }
+            document.getElementById("add-item-button").classList.add("todo_button_edit_current");
+            document.getElementById("delete-list-button").classList.add("todo_button_edit_current");
+            document.getElementById("close-list-button").classList.add("todo_button_edit_current");
+            document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
         }
     }
 
@@ -41,6 +41,10 @@ export default class ToDoView {
         while (parent.firstChild) {
             parent.removeChild(parent.firstChild);
         }
+    }
+    hideList() {
+        let itemsListDiv = document.getElementById("todo-list-items-div");
+        this.clearItemsList();
     }
 
     // REFRESHES ALL THE LISTS IN THE LEFT SIDEBAR
@@ -57,6 +61,7 @@ export default class ToDoView {
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
     swapToDiv(e, isTask) {
+        console.log(e);
         let newTag = document.createElement("div");
         newTag.innerHTML = e.value;
         if (isTask) {
@@ -98,6 +103,12 @@ export default class ToDoView {
         let newTag = document.createElement("div");
         newTag.classList.add("status-dropdown");
         newTag.innerHTML = e.value;
+        if (e.value == "complete") {
+            newTag.classList.add("complete-status");
+        }
+        else {
+            newTag.classList.add("incomplete-status");
+        }
         e.parentNode.replaceChild(newTag, e);
     }
     viewList(list) {
@@ -117,15 +128,40 @@ export default class ToDoView {
                                 + "<div class='due-date-col' type=text>" + listItem.dueDate + "</div>"
                                 + "<div class='status-col'>"
                                 + "<div class='status-dropdown'>" + listItem.getStatus() + "</div></div>"
-                                + "<div class='list-controls-col'>" 
-                                + " <div class='list-item-control material-icons arrow-up todo_button'>keyboard_arrow_up</div>"
-                                + " <div class='list-item-control material-icons arrow-down todo_button'>keyboard_arrow_down</div>"
-                                + " <div class='list-item-control material-icons close todo_button'>close</div>"
+                                + "<div class='list-controls-col'>";
+            if (i == 0) {
+                listItemElement += " <div class='list-item-control material-icons arrow-up'>keyboard_arrow_up</div>"
+            }
+            else {
+                listItemElement += " <div class='list-item-control material-icons arrow-up todo_button'>keyboard_arrow_up</div>"
+            }
+            if (i == list.items.length -1) {
+                listItemElement += " <div class='list-item-control material-icons arrow-down'>keyboard_arrow_down</div>"
+            }
+            else {
+                listItemElement += " <div class='list-item-control material-icons arrow-down todo_button'>keyboard_arrow_down</div>"
+            }
+            listItemElement += " <div class='list-item-control material-icons close todo_button'>close</div>"
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
                                 //"<div class='status-dropdown'>Incomplete<div class=select-options</div>"
             itemsListDiv.innerHTML += listItemElement;
+        }
+        let statuses = document.getElementsByClassName("status-dropdown");
+        for (let i = 0; i < statuses.length; i++) {
+            if (statuses[i].innerHTML == "complete") {
+                statuses[i].classList.add("complete-status");
+            }
+            if (statuses[i].innerHTML == "incomplete") {
+                statuses[i].classList.add("incomplete-status");
+            }
+        }
+        if (document.getElementById("todo-lists-list").children.length != 0) {
+            console.log("yes");
+            console.log(document.getElementById("todo-lists-list").firstChild)
+            document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
+            console.log(document.getElementById("todo-lists-list").firstChild);
         }
     }
 

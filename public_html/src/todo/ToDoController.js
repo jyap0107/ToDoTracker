@@ -19,14 +19,20 @@ export default class ToDoController {
         document.getElementById("add-list-button").onclick = function() {
             appModel.addNewList();
         }
-        document.getElementById("undo-button").onclick = function() {
-            appModel.undo();
-        }
-        document.getElementById("redo-button").onclick = function() {
-            appModel.redo();
-        }
+        document.getElementById("undo-button").addEventListener("click", function(event){
+            if (!event.target.classList.contains("disabled")) {
+                appModel.undo();
+            }
+        })
+        document.getElementById("redo-button").addEventListener("click", function(event){
+            if (!event.target.classList.contains("disabled")) {
+                appModel.redo();
+            }
+        })
         document.getElementById("delete-list-button").onclick = function() {
-            appModel.removeListConfirmation();
+            if (appModel.currentList != null){
+                appModel.removeListConfirmation();
+            }
         }
         document.getElementById("confirm-delete").onclick = function() {
             appModel.removeCurrentList();
@@ -43,10 +49,15 @@ export default class ToDoController {
             appModel.removeListModalHide();
         }
         document.getElementById("add-item-button").onclick = function() {
-            appModel.addNewItemTransaction();
+            if (appModel.currentList != null){
+                appModel.addNewItemTransaction();
+            }
+        }
+        document.getElementById("close-list-button").onclick = function() {
+            appModel.view.hideList();
         }
         // Event Listener for changing the description
-        document.addEventListener("mousedown", function(e) {
+        document.addEventListener("click", function(e) {
             let input = document.querySelector("input");
             // If clicked on input when it is already open
             if (e.target && e.target.matches("input")) {
@@ -85,7 +96,7 @@ export default class ToDoController {
 
         })
         // Event listener for transforming HTML to select and back
-        document.addEventListener("mousedown", function(e) {
+        document.addEventListener("click", function(e) {
             let input = document.querySelector("select");
             if (e.target && !e.target.matches("select")) {
                 if (input != null) {
@@ -109,7 +120,7 @@ export default class ToDoController {
                 appModel.changeStatusTransaction(index, element.value)
             }
         })
-        document.addEventListener("mousedown", function(event) {
+        document.addEventListener("click", function(event) {
             let element = event.target;
             let index = 0;
             if (element.matches(".arrow-up") || element.matches(".arrow-down") || element.matches(".close")) {
@@ -120,13 +131,13 @@ export default class ToDoController {
                     }
                 }
                 if (element.matches(".arrow-up")) {
-                    appModel.moveItemDownTransaction(index);
+                    appModel.moveItemUpTransaction(index);
                 }
                 if (element.matches(".arrow-down")) {
-                    appModel.moveItemDown(index);
+                    appModel.moveItemDownTransaction(index);
                 }
                 if (element.matches(".close")) {
-                    appModel.removeItem(appModel.currentList.items[index]);
+                    appModel.removeItemTransaction(index, appModel.currentList.items[index]);
                 }
             }
             // if (e.target && e.target.matches("arrow-up")) {
@@ -153,6 +164,7 @@ export default class ToDoController {
         // this.model.currentList = this.model.toDoLists[0];
         this.model.tps.clearAllTransactions();
         this.model.loadList(listId);
+        listId.get
         
     }
 }
