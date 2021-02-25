@@ -59,13 +59,12 @@ export default class ToDoController {
                     let index = Array.from(input.parentNode.parentNode.children).indexOf(input.parentNode);
                     if (input.classList.contains("task-col")) {
                         //Should be handled via view.
-                        appModel.changeTaskTextTransaction(index);
+                        appModel.changeTaskTextTransaction(index, input);
                         // appModel.view.swapToDiv(input, index, true);
                         // appModel.currentList.items[index].setDescription(input.value);
                     }
                     else {
-                        appModel.view.swapToDiv(input, index, false);
-                        appModel.currentList.items[index].setDueDate(input.value);
+                        appModel.changeDueDateTransaction(index, input);
                     }
                 }
             }
@@ -97,20 +96,40 @@ export default class ToDoController {
                 let element = e.target;
                 let parent = element.parentNode.parentNode;
                 let index = Array.from(parent.parentNode.children).indexOf(parent);
-                console.log(index);
                 appModel.view.swapToDropdown(e.target, appModel.currentList.items[index].status);
             }
         })
         // Event Listener for detecting change of the dropdown
         document.getElementById("todo-list-items-div").addEventListener("change", function(event) {
             let element = event.target;
-            if (event.target.matches(".status-dropdown")) {
+            if (element.matches(".status-dropdown")) {
                 //can be handled by model
                 let parent = element.parentNode.parentNode;
                 let index = Array.from(parent.parentNode.children).indexOf(parent);
                 appModel.currentList.items[index].setStatus(element.value);
             }
         })
+        document.addEventListener("mousedown", function(event) {
+            let element = event.target;
+            let index = 0;
+            if (element.matches(".arrow-up")) {
+                let items = document.getElementById("todo-list-items-div").children;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].contains(element)) {
+                        index = i;
+                    }
+                }
+            }
+            // if (e.target && e.target.matches("arrow-up")) {
+            //     appModel.moveItemUp();
+            // }
+            // if (e.target && e.target.matches("arrow-down")) {
+            //     appModel.moveItemDown();
+            // }
+            // if (e.target && e.target.matches("close")) {
+            //     appModel.moveListUp();
+            // }
+        }) 
 
         
         // If you click outside of an input, set all inputs back to div.
@@ -123,6 +142,7 @@ export default class ToDoController {
     handleLoadList(listId) {
         // // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
         // this.model.currentList = this.model.toDoLists[0];
+        this.model.tps.clearAllTransactions();
         this.model.loadList(listId);
         
     }

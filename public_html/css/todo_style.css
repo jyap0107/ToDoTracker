@@ -55,15 +55,24 @@
 #confirm-delete:hover {
     transform:scale(1.1, 1.1);
     cursor:pointer;
-    background-color: rgba(255,255,255,.5)
+    background-color: rgba(255,255,255,.5);
 }
 .task-col {
     background-color: #40454e;
     color: white;
 }
+input.task-col {
+    background-color: rgb(87, 93, 105);
+}
+input.due-date-col {
+    background-color: rgb(87, 93, 105);
+}
 .due-date-col {
     background-color: #40454e;
     color: white;
+}
+select.status-dropdown {
+    background-color: rgb(87, 93, 105);
 }
 .status-dropdown {
     display: flex;

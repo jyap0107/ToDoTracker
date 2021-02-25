@@ -91,12 +91,10 @@ export default class ToDoView {
         option2.selectedIndex = "0";
         select1.appendChild(option1);
         select1.appendChild(option2);
-        console.log(status);
         select1.value = status
         e.parentNode.replaceChild(select1, e);
     }
     swapDropdownToDiv(e) {
-        console.log(e.value);
         let newTag = document.createElement("div");
         newTag.classList.add("status-dropdown");
         newTag.innerHTML = e.value;
@@ -120,11 +118,11 @@ export default class ToDoView {
                                 + "<div class='status-col'>"
                                 + "<div class='status-dropdown'>" + listItem.getStatus() + "</div></div>"
                                 + "<div class='list-controls-col'>" 
-                                // + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
-                                // + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
-                                // + " <div class='list-item-control material-icons'>close</div>"
-                                // + " <div class='list-item-control'></div>"
-                                // + " <div class='list-item-control'></div>"
+                                + " <div class='list-item-control material-icons arrow-up'>keyboard_arrow_up</div>"
+                                + " <div class='list-item-control material-icons arrow-down'>keyboard_arrow_down</div>"
+                                + " <div class='list-item-control material-icons close'>close</div>"
+                                + " <div class='list-item-control'></div>"
+                                + " <div class='list-item-control'></div>"
                                 + "</div>";
                                 //"<div class='status-dropdown'>Incomplete<div class=select-options</div>"
             itemsListDiv.innerHTML += listItemElement;
