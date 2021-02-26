@@ -32,6 +32,8 @@ export default class ToDoView {
             document.getElementById("add-item-button").classList.remove("disabled");
             document.getElementById("delete-list-button").classList.remove("disabled");
             document.getElementById("close-list-button").classList.remove("disabled");
+            document.getElementById("undo-button").classList.remove("todo_button");
+            document.getElementById("redo-button").classList.remove("todo_button");
             document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
         }
     }
