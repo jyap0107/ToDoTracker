@@ -192,11 +192,12 @@ export default class jsTPS {
     clearAllTransactions() {
         // REMOVE ALL THE TRANSACTIONS
         this.transactions = new Array();
-        
         // MAKE SURE TO RESET THE LOCATION OF THE
         // TOP OF THE TPS STACK TOO
         this.mostRecentTransaction = -1;      
         this.numTransactions = 0; 
+        document.getElementById("undo-button").classList.add("disabled");
+        document.getElementById("redo-button").classList.add("disabled");
     }
 
     /**

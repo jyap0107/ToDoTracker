@@ -26,11 +26,31 @@ export default class ToDoView {
         listElement.onmousedown = function() {
             thisController.handleLoadList(newList.id);
             thisController.a = true;
-            document.getElementById("add-item-button").classList.add("todo_button_edit_current");
-            document.getElementById("delete-list-button").classList.add("todo_button_edit_current");
-            document.getElementById("close-list-button").classList.add("todo_button_edit_current");
+            document.getElementById("add-item-button").classList.add("todo_button");
+            document.getElementById("delete-list-button").classList.add("todo_button");
+            document.getElementById("close-list-button").classList.add("todo_button");
+            document.getElementById("add-item-button").classList.remove("disabled");
+            document.getElementById("delete-list-button").classList.remove("disabled");
+            document.getElementById("close-list-button").classList.remove("disabled");
             document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
         }
+    }
+    enableListButtons() {
+        console.log("dog");
+        document.getElementById("add-item-button").classList.remove("disabled");
+        document.getElementById("delete-list-button").classList.remove("disabled");
+        document.getElementById("close-list-button").classList.remove("disabled");
+    }
+    disableListButtons() {
+        document.getElementById("add-item-button").classList.add("disabled");
+        document.getElementById("delete-list-button").classList.add("disabled");
+        document.getElementById("close-list-button").classList.add("disabled");
+        document.getElementById("add-item-button").classList.remove("todo_button");
+            document.getElementById("delete-list-button").classList.remove("todo_button");
+            document.getElementById("close-list-button").classList.remove("todo_button");
+
+        document.getElementById("undo-button").classList.remove("todo_button");
+        document.getElementById("redo-button").classList.remove("todo_button");
     }
 
     // REMOVES ALL THE LISTS FROM THE LEFT SIDEBAR
@@ -44,6 +64,7 @@ export default class ToDoView {
     }
     hideList() {
         let itemsListDiv = document.getElementById("todo-list-items-div");
+        document.getElementById("todo-lists-list").firstChild.classList.remove("highlight");
         this.clearItemsList();
     }
 
@@ -61,7 +82,6 @@ export default class ToDoView {
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
     swapToDiv(e, isTask) {
-        console.log(e);
         let newTag = document.createElement("div");
         newTag.innerHTML = e.value;
         if (isTask) {
@@ -80,6 +100,7 @@ export default class ToDoView {
             newTag.classList.add("task-col");
         }
         else {
+            newTag.type = "date";
             newTag.classList.add("due-date-col");
         }
         e.parentNode.replaceChild(newTag, e);
@@ -130,13 +151,13 @@ export default class ToDoView {
                                 + "<div class='status-dropdown'>" + listItem.getStatus() + "</div></div>"
                                 + "<div class='list-controls-col'>";
             if (i == 0) {
-                listItemElement += " <div class='list-item-control material-icons arrow-up'>keyboard_arrow_up</div>"
+                listItemElement += " <div class='list-item-control material-icons arrow-up disabled'>keyboard_arrow_up</div>"
             }
             else {
                 listItemElement += " <div class='list-item-control material-icons arrow-up todo_button'>keyboard_arrow_up</div>"
             }
             if (i == list.items.length -1) {
-                listItemElement += " <div class='list-item-control material-icons arrow-down'>keyboard_arrow_down</div>"
+                listItemElement += " <div class='list-item-control material-icons arrow-down disabled'>keyboard_arrow_down</div>"
             }
             else {
                 listItemElement += " <div class='list-item-control material-icons arrow-down todo_button'>keyboard_arrow_down</div>"
@@ -158,10 +179,7 @@ export default class ToDoView {
             }
         }
         if (document.getElementById("todo-lists-list").children.length != 0) {
-            console.log("yes");
-            console.log(document.getElementById("todo-lists-list").firstChild)
             document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
-            console.log(document.getElementById("todo-lists-list").firstChild);
         }
     }
 

@@ -94,16 +94,28 @@ export default class ToDoModel {
     }
     changeTaskTextTransaction(index, input) {
         let transaction = new ChangeTaskText_Transaction(this, index, true, input);
+        if (input.value == this.currentList.items[index].description) {
+            this.view.swapToDiv(input, true);
+            return;
+        }
         this.enableUndoButton();
         this.tps.addTransaction(transaction);
     }
     changeDueDateTransaction(index, input) {
-        let transaction = new ChangeDueDate_Transaction(this, index, true, input);
+        let transaction = new ChangeDueDate_Transaction(this, index, false, input);
+        if (input.value == this.currentList.items[index].dueDate) {
+            this.view.swapToDiv(input, false);
+            return;
+        }
         this.enableUndoButton();
         this.tps.addTransaction(transaction);
     }
     changeStatusTransaction(index, value) {
-        let transaction =new ChangeStatus_Transaction(this, index, value);
+        let transaction =new ChangeStatus_Transaction(this, index, value)
+        if (value == this.currentList.items[index].status) {
+            this.view.swapDropdownToDiv(input, false);
+            return;
+        };
         this.enableUndoButton();
         this.tps.addTransaction(transaction);
     }
@@ -257,11 +269,12 @@ export default class ToDoModel {
         this.toDoLists.splice(indexOfList, 1);
         this.currentList = null;
         let elements = document.getElementsByClassName("list-item-control");
-        for (let i = 0; i < elements.length; i++) {
-            elements[i].classList.remove("todo_button_edit_current");
-        }
+        // for (let i = 0; i < elements.length; i++) {
+        //     elements[i].classList.remove("todo_button_edit_current");
+        // }
         this.view.clearItemsList();
         this.view.refreshLists(this.toDoLists);
+        this.tps.clearAllTransactions();
     }
     removeListConfirmation() {
         if (this.currentList != null) {

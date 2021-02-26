@@ -37,6 +37,8 @@ export default class ToDoController {
         document.getElementById("confirm-delete").onclick = function() {
             appModel.removeCurrentList();
             appModel.removeListModalHide();
+            appModel.view.disableListButtons();
+            document.getElementById("todo-lists-list").firstChild.classList.remove("highlight");
             
         }
         document.addEventListener("keydown", function(event) {
@@ -55,6 +57,9 @@ export default class ToDoController {
         }
         document.getElementById("close-list-button").onclick = function() {
             appModel.view.hideList();
+            appModel.view.disableListButtons();
+            appModel.currentList = null;
+            appModel.tps.clearAllTransactions();
         }
         // Event Listener for changing the description
         document.addEventListener("click", function(e) {
@@ -162,9 +167,10 @@ export default class ToDoController {
     handleLoadList(listId) {
         // // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
         // this.model.currentList = this.model.toDoLists[0];
+        if (this.model.currentList == null) {
+            this.model.view.disableListButtons();
+        }
         this.model.tps.clearAllTransactions();
         this.model.loadList(listId);
-        listId.get
-        
     }
 }
