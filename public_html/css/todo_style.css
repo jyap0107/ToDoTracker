@@ -134,6 +134,7 @@ select.status-dropdown {
 }
 .highlight {
     background-color: rgb(69, 75, 83);
+    color: rgb(255,200,25);
 }
 .list-item-card:hover {
     background-color: rgb(77, 80, 89);

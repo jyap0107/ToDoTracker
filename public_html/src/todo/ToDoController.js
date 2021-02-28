@@ -1,5 +1,7 @@
 'use strict'
 
+import ChangeListName_Transaction from "./transactions/ChangeListName_Transaction";
+
 /**
  * ToDoController
  * 
@@ -154,7 +156,16 @@ export default class ToDoController {
             // if (e.target && e.target.matches("close")) {
             //     appModel.moveListUp();
             // }
-        }) 
+        })
+        document.getElementById("todo-lists-list").addEventListener("mousedown", function(event) {
+            console.log(document.getElementById("todo-lists-list").firstChild);
+            if (event.target.classList.contains("highlight")) {
+                console.log("doo");
+                if (event.target.tagName == "div") {
+                    appModel.view.listNameInput(event.target);
+                }
+            }
+        })
 
         
         // If you click outside of an input, set all inputs back to div.

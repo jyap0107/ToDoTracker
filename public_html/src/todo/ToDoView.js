@@ -134,6 +134,14 @@ export default class ToDoView {
         }
         e.parentNode.replaceChild(newTag, e);
     }
+    listNameInput(e) {
+        let newTag = document.createElement("input");
+        let classes = e.classList;
+        for (let i = 0; i < classes.length; i++) {
+            newTag.classList.add(classes[i]);
+        }
+        e.parentNode.repalceChild(newTag, e);
+    }
     viewList(list) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
