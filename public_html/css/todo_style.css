@@ -27,7 +27,18 @@
 .grid-item {
     background-color: var(--swatch-primary);
 }
-
+#task-col-header {
+    padding-top:5px;
+    padding-bottom: 5px;
+}
+#status-col-header {
+    padding-top:5px;
+    padding-bottom: 5px;
+}
+#ddate-col-header {
+    padding-top:5px;
+    padding-bottom: 5px;
+}
 #navbar {
     box-shadow: 2px 2px 2px var(--swatch-primary);
     height: 83%;
@@ -53,17 +64,30 @@
     border-bottom: dotted;
     background-color: var(--swatch-complement);
 }
-
 #todo-list-table-header {
     border-bottom: dotted;
 }
 #confirm-delete:hover {
     transform:scale(1.1, 1.1);
     cursor:pointer;
-    background-color: rgba(255,255,255,.5);
+    background-color: var(--swatch-contrast);
+}
+#cancel-delete:hover {
+    transform:scale(1.1, 1.1);
+    cursor:pointer;
+    background-color: var(--swatch-contrast);
 }
 #todo-lists-list {
     background-color: var(--swatch-complement);
+}
+#x-button {
+    font-size: 20pt;
+    padding-top: 0px;
+    margin-top: 0px;
+}
+.delete-choices {
+    display:flex;
+    flex-direction: row;
 }
 .task-col {
     color: white;
@@ -100,6 +124,7 @@ select.status-dropdown {
 
 .list-item-card {
     border-bottom: solid;
+    padding-top: 2px;
 }
 
 .todo_button {
@@ -126,9 +151,9 @@ select.status-dropdown {
     transition: all 0.4s;
 } */
 .delete-confirmation-close-button:hover {
-    transform:scale(1.3,1.3);
     cursor:pointer;
     transition: all 0.4s;
+    background-color: var(--swatch-contrast)
 }
 .incomplete-status {
     color: rgb(245, 188, 117)
@@ -138,7 +163,7 @@ select.status-dropdown {
 }
 .highlight {
     background-color: rgb(69, 75, 83);
-    color: rgb(255,200,25);
+    color: var(--swatch-accent);
 }
 .list-item-card:hover {
     background-color: rgb(77, 80, 89);

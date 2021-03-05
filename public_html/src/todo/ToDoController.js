@@ -37,7 +37,6 @@ export default class ToDoController {
             appModel.removeListModalHide();
             appModel.view.disableListButtons();
             document.getElementById("todo-lists-list").firstChild.classList.remove("highlight");
-            
         }
         document.addEventListener("keydown", function(event) {
             const key = event.key;
@@ -46,6 +45,9 @@ export default class ToDoController {
             }
         })
         document.getElementById("x-button").onclick = function() {
+            appModel.removeListModalHide();
+        }
+        document.getElementById("cancel-delete").onclick = function() {
             appModel.removeListModalHide();
         }
         document.getElementById("add-item-button").onclick = function() {
