@@ -77,6 +77,10 @@ input.due-date-col {
 .due-date-col {
     color: white;
 }
+input.list-sidebar-item {
+    color: white;
+    background-color: rgb(87, 93, 105);
+}
 select.status-dropdown {
     background-color: rgb(87, 93, 105);
     color:white;

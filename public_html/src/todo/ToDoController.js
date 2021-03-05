@@ -1,7 +1,3 @@
-'use strict'
-
-import ChangeListName_Transaction from "./transactions/ChangeListName_Transaction";
-
 /**
  * ToDoController
  * 
@@ -73,7 +69,6 @@ export default class ToDoController {
             // If did not click on input and there is an input
             if (e.target && !e.target.matches("input")) {
                 if (input != null){
-                    let parent = input.parentNode;
                     let index = Array.from(input.parentNode.parentNode.children).indexOf(input.parentNode);
                     if (input.classList.contains("task-col")) {
                         //Should be handled via view.
@@ -81,11 +76,16 @@ export default class ToDoController {
                         // appModel.view.swapToDiv(input, index, true);
                         // appModel.currentList.items[index].setDescription(input.value);
                     }
-                    else {
+                    if (input.classList.contains("due-date-col")){
                         appModel.changeDueDateTransaction(index, input);
                     }
-                }
-            }
+                    if (input.parentNode != null && input.parentNode.firstChild == input) {
+                    }
+                    // if (input.classList.contains("list-sidebar-item") && e.target.id != input.id) {
+                    //     appModel.view.swapSidebarToDiv(input);
+                    //     console.log("swapped back yes");
+                    // }
+            };
             if (e.target && e.target.matches(".task-col") && !e.target.matches("#task-col-header")) {
                 appModel.view.swapToInput(e.target, true);
                 return;
@@ -94,6 +94,11 @@ export default class ToDoController {
                 appModel.view.swapToInput(e.target, false);
                 return;
             }
+            // if (e.target && (e.target.matches(".list-sidebar-item"))) {
+            //     // console.log(e.target);
+            //     // console.log(e.target.parentNode);
+            //     appModel.view.swapSidebarToDiv(e.target);
+            // }
             // document.getElementById("todo-list-items-div").addEventListener("click",function(e) {
             //     if (e.target && e.target.matches(".task-col")) {
             //         appModel.swapItemTag(e.target);
@@ -101,7 +106,8 @@ export default class ToDoController {
             // })
             // If clicked onto the status element
 
-        })
+        }
+    })
         // Event listener for transforming HTML to select and back
         document.addEventListener("click", function(e) {
             let input = document.querySelector("select");
@@ -147,31 +153,11 @@ export default class ToDoController {
                     appModel.removeItemTransaction(index, appModel.currentList.items[index]);
                 }
             }
-            // if (e.target && e.target.matches("arrow-up")) {
-            //     appModel.moveItemUp();
-            // }
-            // if (e.target && e.target.matches("arrow-down")) {
-            //     appModel.moveItemDown();
-            // }
-            // if (e.target && e.target.matches("close")) {
-            //     appModel.moveListUp();
-            // }
-        })
-        document.getElementById("todo-lists-list").addEventListener("mousedown", function(event) {
-            console.log(document.getElementById("todo-lists-list").firstChild);
-            if (event.target.classList.contains("highlight")) {
-                console.log("doo");
-                if (event.target.tagName == "div") {
-                    appModel.view.listNameInput(event.target);
-                }
-            }
         })
 
-        
         // If you click outside of an input, set all inputs back to div.
 
 
-        
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD

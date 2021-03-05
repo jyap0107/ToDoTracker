@@ -10,6 +10,7 @@ import ChangeStatus_Transaction from './transactions/ChangeStatus_Transaction.js
 import MoveItemDown_Transaction from './transactions/MoveItemDown_Transaction.js'
 import MoveItemUp_Transaction from './transactions/MoveItemUp_Transaction.js'
 import RemoveItem_Transaction from './transactions/RemoveItem_Transaction.js'
+import ChangeListName_Transaction from './transactions/ChangeListName_Transaction.js'
 
 /**
  * ToDoModel
@@ -100,6 +101,10 @@ export default class ToDoModel {
         }
         this.enableUndoButton();
         this.tps.addTransaction(transaction);
+    }
+    changeListNameTransaction(input) {
+        let transaction = new ChangeListName_Transaction(this, input);
+        
     }
     changeDueDateTransaction(index, input) {
         let transaction = new ChangeDueDate_Transaction(this, index, false, input);

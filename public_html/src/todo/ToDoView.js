@@ -15,30 +15,41 @@ export default class ToDoView {
 
         // MAKE AND ADD THE NODE
         let newListId = "todo-list-" + newList.id;
+        
         let listElement = document.createElement("div");
         listElement.setAttribute("id", newListId);
         listElement.setAttribute("class", "todo_button");
+        listElement.classList.add("list-sidebar-item");
         listElement.appendChild(document.createTextNode(newList.name));
         listsElement.appendChild(listElement);
 
         // SETUP THE HANDLER FOR WHEN SOMEONE MOUSE CLICKS ON OUR LIST
         let thisController = this.controller;
-        listElement.onmousedown = function() {
-            thisController.handleLoadList(newList.id);
-            thisController.a = true;
-            document.getElementById("add-item-button").classList.add("todo_button");
-            document.getElementById("delete-list-button").classList.add("todo_button");
-            document.getElementById("close-list-button").classList.add("todo_button");
-            document.getElementById("add-item-button").classList.remove("disabled");
-            document.getElementById("delete-list-button").classList.remove("disabled");
-            document.getElementById("close-list-button").classList.remove("disabled");
-            document.getElementById("undo-button").classList.remove("todo_button");
-            document.getElementById("redo-button").classList.remove("todo_button");
-            document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
+        listElement.onclick = event => {
+            let bool = listElement.parentNode.firstChild == listElement;
+            if (bool && document.getElementsByClassName("highlight").length > 0) {
+                // let newEle = this.swapSidebarToInput(listElement);
+                // newEle.focus();
+            }
+            else {
+                thisController.handleLoadList(newList.id);
+                document.getElementById("add-item-button").classList.add("todo_button");
+                document.getElementById("delete-list-button").classList.add("todo_button");
+                document.getElementById("close-list-button").classList.add("todo_button");
+                document.getElementById("add-item-button").classList.remove("disabled");
+                document.getElementById("delete-list-button").classList.remove("disabled");
+                document.getElementById("close-list-button").classList.remove("disabled");
+                document.getElementById("undo-button").classList.remove("todo_button");
+                document.getElementById("redo-button").classList.remove("todo_button");
+                document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
+            }
+        }
+        listElement.ondblclick = (event) => {
+            console.log
+            // /this.swapSidebarToDiv(event.target);
         }
     }
     enableListButtons() {
-        console.log("dog");
         document.getElementById("add-item-button").classList.remove("disabled");
         document.getElementById("delete-list-button").classList.remove("disabled");
         document.getElementById("close-list-button").classList.remove("disabled");
@@ -80,6 +91,15 @@ export default class ToDoView {
             let list = lists[i];
             this.appendNewListToView(list);
         }
+        document.getElementById("add-item-button").classList.add("todo_button");
+        document.getElementById("delete-list-button").classList.add("todo_button");
+        document.getElementById("close-list-button").classList.add("todo_button");
+        document.getElementById("add-item-button").classList.remove("disabled");
+        document.getElementById("delete-list-button").classList.remove("disabled");
+        document.getElementById("close-list-button").classList.remove("disabled");
+        document.getElementById("undo-button").classList.remove("todo_button");
+        document.getElementById("redo-button").classList.remove("todo_button");
+        document.getElementById("todo-lists-list").firstChild.classList.add("highlight");
     }
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
@@ -134,13 +154,21 @@ export default class ToDoView {
         }
         e.parentNode.replaceChild(newTag, e);
     }
-    listNameInput(e) {
+    swapSidebarToInput(e) {
         let newTag = document.createElement("input");
-        let classes = e.classList;
-        for (let i = 0; i < classes.length; i++) {
-            newTag.classList.add(classes[i]);
-        }
-        e.parentNode.repalceChild(newTag, e);
+        newTag.classList = e.classList;
+        newTag.id = e.id;
+        newTag.defaultValue = e.innerHTML;
+        let temp = e.parentNode;
+        e.parentNode.replaceChild(newTag, e);
+        return newTag;
+    }
+    swapSidebarToDiv(e) {
+        let newTag = document.createElement("div");
+        newTag.classList = e.classList;
+        newTag.id = e.id;
+        newTag.innerHTML = e.value;
+        e.parentNode.replaceChild(newTag, e);
     }
     viewList(list) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
